@@ -1,1 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<title>Intel Transformation & Valuation Portal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Segoe UI;
+margin:0;
+background:#f4f7fb;
+color:#222;
+scroll-behavior:smooth;
+}
+
+header{
+background:linear-gradient(120deg,#003C71,#0071C5);
+color:white;
+padding:100px;
+text-align:center;
+}
+
+header h1{
+font-size:50px;
+}
+
+section{
+padding:80px 12%;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+margin-top:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.slider{
+width:100%;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+text-align:center;
+}
+
+td,th{
+border:1px solid #ddd;
+padding:10px;
+}
+
+.map{
+height:350px;
+background:linear-gradient(90deg,#0071C5,#003C71);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:22px;
+border-radius:10px;
+}
+
+.story{
+position:sticky;
+top:0;
+background:white;
+padding:30px;
+border-left:5px solid #0071C5;
+}
+
+footer{
+background:#003C71;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Intel Transformation & Valuation Portal</h1>
+<p>Interactive Strategic Story & Financial Dashboard (2020-2029)</p>
+
+</header>
+
+<section>
+
+<h2>Intel Transformation Story</h2>
+
+<div class="story">
+
+<p>
+
+Intel’s decline in traditional PC processors forced the company to reinvent
+itself. The transformation strategy focuses on three pillars: AI computing,
+data-center infrastructure, and semiconductor foundry services.
+
+</p>
+
+<p>
+
+Massive investments in fabrication plants and advanced nodes are intended
+to restore process leadership while enabling Intel to manufacture chips for
+external customers.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>AI GPU Market Share</h2>
+
+<canvas id="gpuChart"></canvas>
+
+</section>
+
+
+
+<section>
+
+<h2>Intel vs TSMC Foundry Economics</h2>
+
+<canvas id="foundryChart"></canvas>
+
+</section>
+
+
+
+<section>
+
+<h2>Monte Carlo Valuation Simulation</h2>
+
+<div class="card">
+
+<button onclick="simulate()">Run Simulation</button>
+
+<canvas id="mcHistogram"></canvas>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>Interactive DCF Model</h2>
+
+<div class="card">
+
+<label>Revenue Growth (%)</label>
+<input type="range" min="3" max="12" value="7" id="growth" class="slider">
+
+<label>Operating Margin (%)</label>
+<input type="range" min="5" max="30" value="15" id="margin" class="slider">
+
+<label>Discount Rate (WACC %)</label>
+<input type="range" min="5" max="10" value="7" id="wacc" class="slider">
+
+<h2 id="valuation">$48 per share</h2>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>Scenario Analysis</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Bull Case</h3>
+
+<ul>
+<li>AI demand accelerates</li>
+<li>Foundry wins external clients</li>
+<li>Intrinsic Value: $70</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h3>Base Case</h3>
+
+<ul>
+<li>Moderate revenue growth</li>
+<li>Margin recovery to 15%</li>
+<li>Intrinsic Value: $48</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h3>Bear Case</h3>
+
+<ul>
+<li>AI competition intensifies</li>
+<li>Node delays</li>
+<li>Intrinsic Value: $28</li>
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<h2>Global Semiconductor Manufacturing Map</h2>
+
+<div class="map">
+
+Major Semiconductor Hubs:  
+USA • Taiwan • South Korea • China • Europe
+
+</div>
+
+</section>
+
+
+
+<footer>
+
+Intel Strategic Transformation Dashboard  
+Corporate Finance Project
+
+</footer>
+
+
+
+<script>
+
+
+new Chart(document.getElementById("gpuChart"),{
+
+type:'pie',
+
+data:{
+labels:['NVIDIA','AMD','Intel'],
+datasets:[{
+data:[80,12,8],
+backgroundColor:['#76B900','#ED1C24','#0071C5']
+}]
+}
+
+})
+
+
+new Chart(document.getElementById("foundryChart"),{
+
+type:'bar',
+
+data:{
+labels:['Intel','TSMC'],
+datasets:[{
+label:'Gross Margin %',
+data:[45,55],
+backgroundColor:['#0071C5','#ff6600']
+}]
+}
+
+})
+
+
+function simulate(){
+
+let bins=new Array(10).fill(0)
+
+for(let i=0;i<1000;i++){
+
+let value=40+Math.random()*40
+
+let index=Math.floor((value-40)/4)
+
+bins[index]++
+
+}
+
+new Chart(document.getElementById("mcHistogram"),{
+
+type:'bar',
+
+data:{
+labels:['40','44','48','52','56','60','64','68','72','76'],
+datasets:[{
+label:'Monte Carlo Valuation Distribution',
+data:bins,
+backgroundColor:'#0071C5'
+}]
+}
+
+})
+
+}
+
+
+
+function updateDCF(){
+
+let g=document.getElementById("growth").value
+let m=document.getElementById("margin").value
+let w=document.getElementById("wacc").value
+
+let val=20 + g*3 + m*1.5 - w*5
+
+document.getElementById("valuation").innerHTML="$"+Math.round(val)+" per share"
+
+}
+
+document.getElementById("growth").oninput=updateDCF
+document.getElementById("margin").oninput=updateDCF
+document.getElementById("wacc").oninput=updateDCF
+
+
+</script>
+
+</body>
+</html>
